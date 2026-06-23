@@ -1,0 +1,10 @@
+# Normalize line endings across platforms. Shell + JS must be LF so the hooks
+# and statusline run on Linux/macOS after checkout; PowerShell stays CRLF.
+* text=auto eol=lf
+
+*.ps1 text eol=crlf
+*.sh  text eol=lf
+*.js  text eol=lf
+*.md  text eol=lf
+*.json text eol=lf
+*.mdc text eol=lf
