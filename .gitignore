@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Logs / OS cruft
+*.log
+.DS_Store
+Thumbs.db
+
+# Local Claude Code settings backups produced by the installer
+settings.json.bak-cavemax-*
+
+# Editor
+.vscode/
+.idea/
