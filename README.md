@@ -35,6 +35,7 @@ AI:   `/users` slow ∵ N+1. per-user→+1 posts q. 100u=101q.
 - [Why](#why)
 - [Side-by-side example](#side-by-side-example)
 - [Supported tools](#supported-tools)
+- [Chat apps (no install)](#chat-apps-no-install)
 - [Install](#install)
 - [Usage](#usage)
 - [Levels](#levels)
@@ -107,6 +108,16 @@ source of truth. The installer renders it into each tool's native rules format.
 Only Claude Code supports the `/cavemax` slash command and statusline badge. In
 Cursor/Gemini/Codex the rule is always on at `max`; switch in-conversation by
 saying "cavemax safe", "cavemax brutal", or "normal mode".
+
+### Chat apps (no install)
+
+For **claude.ai, ChatGPT, and Gemini** chat: these have no files or hooks. Paste
+the condensed CAVEMAX prompt once
+into a persistent instructions field (Claude **Style** or preferences, ChatGPT
+**Custom Instructions**, a Gemini **Gem**) and it applies to every chat.
+
+➡️ **[Step-by-step chat tutorial](docs/INSTALL-CHAT.md)** ·
+prompt in [`assets/cavemax-chat-prompt.md`](assets/cavemax-chat-prompt.md)
 
 ## Install
 
@@ -291,9 +302,10 @@ sharing output with teammates.
 Only the replies — that's where the output tokens are. You type normally.
 
 **Which tools are supported?**
-Claude Code, Cursor, Gemini CLI, and Codex CLI — see [Supported
-tools](#supported-tools). Any tool that reads `AGENTS.md` or `GEMINI.md` works via
-those files too.
+Coding agents: Claude Code, Cursor, Gemini CLI, Codex CLI (see [Supported
+tools](#supported-tools)) — any tool that reads `AGENTS.md` / `GEMINI.md` works
+too. Chat apps: claude.ai, ChatGPT, Gemini via a pasted prompt — see the
+[chat tutorial](docs/INSTALL-CHAT.md).
 
 **Do I need to publish to npm?**
 No. `npx github:Nixus-security/Cavemax-Skills` runs the installer straight from the
@@ -320,6 +332,8 @@ AGENTS.md                       Codex / generic agents adapter (generated)
 GEMINI.md                       Gemini CLI adapter (generated)
 CLAUDE.md                       Claude Code context adapter (generated)
 .cursor/rules/cavemax.mdc       Cursor rule, alwaysApply (generated)
+assets/cavemax-chat-prompt.md   Condensed prompt for chat apps (generated)
+docs/INSTALL-CHAT.md            Tutorial: claude.ai / ChatGPT / Gemini chat
 
 .claude-plugin/plugin.json      Claude Code plugin manifest (hooks)
 commands/cavemax.md             /cavemax slash command (Claude Code)
