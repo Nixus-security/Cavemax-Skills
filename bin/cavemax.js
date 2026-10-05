@@ -88,6 +88,8 @@ function installClaude() {
   // Copy hooks + skill to a stable location (npx temp dirs get cleaned).
   cpDir(path.join(R.ROOT, 'src', 'hooks'), path.join(STABLE, 'src', 'hooks'));
   cpDir(path.join(R.ROOT, 'skills'), path.join(STABLE, 'skills'));
+  // Claude Code only discovers skills under <claudeDir>/skills, so expose /cavemax there.
+  cpDir(path.join(R.ROOT, 'skills', 'cavemax'), path.join(claudeDir, 'skills', 'cavemax'));
   const hooksDir = path.join(STABLE, 'src', 'hooks');
   const isWin = process.platform === 'win32';
 
@@ -108,7 +110,7 @@ function installClaude() {
     };
   }
   fs.writeFileSync(settingsPath, JSON.stringify(s, null, 2) + '\n');
-  console.log('claude:  hooks copied to ' + rel(STABLE) + ', registered in ' + rel(settingsPath) + ' (default mode: off — run /cavemax)');
+  console.log('claude:  hooks copied to ' + rel(STABLE) + ', skill to ' + rel(path.join(claudeDir, 'skills', 'cavemax')) + ', registered in ' + rel(settingsPath) + ' (default mode: off — run /cavemax)');
 }
 
 function uninstallClaude() {
@@ -126,6 +128,7 @@ function uninstallClaude() {
     fs.writeFileSync(settingsPath, JSON.stringify(s, null, 2) + '\n');
   }
   try { fs.rmSync(STABLE, { recursive: true, force: true }); } catch (e) {}
+  try { fs.rmSync(path.join(claudeDir, 'skills', 'cavemax'), { recursive: true, force: true }); } catch (e) {}
   try { fs.unlinkSync(path.join(claudeDir, '.cavemax-active')); } catch (e) {}
   console.log('claude:  hooks + statusline removed');
 }
