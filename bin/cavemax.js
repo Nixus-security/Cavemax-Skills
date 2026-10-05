@@ -24,6 +24,10 @@ if (flags.has('help') || cmd === 'help') return help();
 const GLOBAL = flags.has('global');
 const cwd = process.cwd();
 const home = os.homedir();
+// Declared before the try block below: installClaude/uninstallClaude read these (TDZ otherwise).
+const STABLE = path.join(home, '.cavemax');
+const claudeDir = process.env.CLAUDE_CONFIG_DIR || path.join(home, '.claude');
+const settingsPath = path.join(claudeDir, 'settings.json');
 
 let want = {
   claude: flags.has('claude'),
@@ -80,10 +84,6 @@ function installCodex() { R.upsertBlock(codexFile(), R.block()); console.log('co
 function uninstallCodex() { console.log('codex:   ' + (R.removeBlock(codexFile()) ? 'removed block from ' + rel(codexFile()) : 'nothing to remove')); }
 
 // ---------- Claude Code (hooks — always global, stable copy in ~/.cavemax) ----------
-const STABLE = path.join(home, '.cavemax');
-const claudeDir = process.env.CLAUDE_CONFIG_DIR || path.join(home, '.claude');
-const settingsPath = path.join(claudeDir, 'settings.json');
-
 function installClaude() {
   // Copy hooks + skill to a stable location (npx temp dirs get cleaned).
   cpDir(path.join(R.ROOT, 'src', 'hooks'), path.join(STABLE, 'src', 'hooks'));
