@@ -3,7 +3,11 @@
 All notable changes to this project are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/); versioning follows [SemVer](https://semver.org/).
 
-## [Unreleased]
+## [0.1.0] — 2026-10-06
+
+Initial public release. Feature set: SKILL.md ruleset (levels `safe`, `max`, `brutal`, `mute`), Claude Code hooks
+(SessionStart + UserPromptSubmit anti-drift) and statusline badge, installer for Claude Code / Cursor / Gemini CLI /
+Codex, chat-app prompt, generated adapter files. Plus the launch work below.
 
 ### Added
 - `SECURITY.md` — what the tool modifies, privacy facts, hook behavior, uninstall, vulnerability reporting.
@@ -23,9 +27,3 @@ All notable changes to this project are documented here. Format based on
 
 ### Removed
 - Accidental `claude` npm dependency (an unrelated placeholder package) that had been added to `package.json`.
-
-## [0.1.0] — unreleased
-
-Initial feature set: SKILL.md ruleset (levels `safe`, `max`, `brutal`, `mute`), Claude Code hooks (SessionStart +
-UserPromptSubmit anti-drift) and statusline badge, installer for Claude Code / Cursor / Gemini CLI / Codex,
-chat-app prompt, generated adapter files. No git tag has been created yet.
