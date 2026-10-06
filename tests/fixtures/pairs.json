@@ -1,0 +1,57 @@
+{
+  "_note": "Hand-written ILLUSTRATIVE pairs used only to unit-test lib/preservation.js. They are not benchmark results and say nothing about real model output.",
+  "pairs": [
+    {
+      "id": "n-plus-one",
+      "expectOk": true,
+      "baseline": "Sure! Your `/users` endpoint is likely slow because of an N+1 query problem. If you have 100 users, you end up running 101 queries total. Use a JOIN with eager loading and add an index on the foreign key.",
+      "compressed": "`/users` slow ∵ N+1. 100u=101q. fix: eager JOIN → 1q · idx FK."
+    },
+    {
+      "id": "error-and-path",
+      "expectOk": true,
+      "baseline": "The failure is `TypeError: Cannot read properties of undefined` thrown at src/auth/mw.ts:42 when running `npm test` on Node 20.11.1. Please check that the token exists.",
+      "compressed": "`TypeError: Cannot read properties of undefined` @ src/auth/mw.ts:42 (`npm test`, Node 20.11.1). token undefined → guard it."
+    },
+    {
+      "id": "code-block",
+      "expectOk": true,
+      "baseline": "You can fix it like this:\n\n```js\nif (token.exp <= Date.now()) throw new Error('expired');\n```\n\nThe comparison was strict before.",
+      "compressed": "Fix:\n```js\nif (token.exp <= Date.now()) throw new Error('expired');\n```"
+    },
+    {
+      "id": "destructive-warning",
+      "expectOk": true,
+      "baseline": "Warning: this permanently deletes every row in the `users` table and cannot be undone. Verify a backup exists first.\n\n```sql\nDROP TABLE users;\n```",
+      "compressed": "Warning: permanently deletes ∀ rows in `users`, cannot be undone. Verify backup first.\n```sql\nDROP TABLE users;\n```"
+    },
+    {
+      "id": "negative-dropped-path",
+      "expectOk": false,
+      "expectMissing": "paths",
+      "baseline": "The bug is at src/auth/mw.ts:42 in the middleware.",
+      "compressed": "bug @ middleware."
+    },
+    {
+      "id": "negative-altered-code",
+      "expectOk": false,
+      "expectMissing": "codeBlocks",
+      "baseline": "Use:\n\n```bash\nrm -rf ./build\n```",
+      "compressed": "Use:\n```bash\nrm -rf build\n```"
+    },
+    {
+      "id": "negative-dropped-number-and-version",
+      "expectOk": false,
+      "expectMissing": "versions",
+      "baseline": "Upgrade to 4.2.1 before the 30 second timeout hits.",
+      "compressed": "Upgrade before timeout."
+    },
+    {
+      "id": "negative-dropped-warning",
+      "expectOk": false,
+      "expectMissing": "safety",
+      "baseline": "This is irreversible: the volume is wiped.",
+      "compressed": "volume wiped."
+    }
+  ]
+}

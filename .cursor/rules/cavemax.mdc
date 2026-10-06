@@ -1,5 +1,5 @@
 ---
-description: CAVEMAX — hyper-compression communication mode (~85-90% fewer tokens)
+description: CAVEMAX — hyper-compression communication mode (concise output, code/errors/identifiers preserved)
 alwaysApply: true
 ---
 

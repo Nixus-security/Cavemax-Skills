@@ -1,11 +1,15 @@
 ---
 name: cavemax
 description: >
-  Hyper-compressed communication mode. Cuts token usage ~85-90% (vs caveman ~75%)
-  while keeping full technical accuracy. Glyph notation + abbreviation dictionary +
-  telegraphic syntax. Levels: safe (~70%), max (~85-90%, default), brutal (~90%+), mute (~99%, verdict words only).
-  Use when user says "cavemax", "max compression", "hyper terse", "save max tokens",
-  or invokes /cavemax. Successor to caveman — push further, same safety floor.
+  Compress AI coding-agent responses by removing filler, repetition, and
+  redundant prose while preserving code blocks, identifiers, file paths,
+  error messages, commands, numbers, versions, security warnings, and
+  destructive-action confirmations. Uses glyph notation, an abbreviation
+  dictionary, and telegraphic syntax. Levels: safe, max (default), brutal,
+  mute (verdict words only). Use when the user asks for concise output,
+  token savings, hyper-terse responses, maximum compression, or mentions
+  Cavemax or /cavemax.
+license: MIT
 ---
 
 Respond hyper-terse. Maximum compression, zero accuracy loss. Every dropped token must be recoverable from context + decoding key. Substance stays exact, only redundancy dies.

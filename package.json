@@ -1,12 +1,14 @@
 {
   "name": "cavemax",
   "version": "0.1.0",
-  "description": "Hyper-compression communication mode for AI coding agents (Claude Code, Cursor, Gemini, Codex). Cuts ~85-90% of output tokens while keeping full technical accuracy.",
+  "description": "Make AI coding agents (Claude Code, Cursor, Gemini CLI, Codex) brutally concise: strips filler and repetition while preserving code, errors, identifiers, paths, commands and security warnings.",
   "bin": {
     "cavemax": "bin/cavemax.js"
   },
   "scripts": {
     "build": "node scripts/build-adapters.js",
+    "test": "node tests/run.js",
+    "benchmark": "node scripts/benchmark.js",
     "postversion": "node scripts/build-adapters.js"
   },
   "files": [
@@ -19,14 +21,21 @@
     "scripts/build-adapters.js"
   ],
   "keywords": [
+    "claude",
     "claude-code",
+    "claude-skills",
+    "agent-skills",
+    "ai-agents",
+    "coding-agents",
     "cursor",
-    "gemini",
+    "gemini-cli",
     "codex",
-    "ai",
+    "llm",
     "tokens",
+    "token-optimization",
+    "prompt-engineering",
+    "developer-tools",
     "compression",
-    "prompt",
     "caveman"
   ],
   "repository": {
@@ -40,6 +49,6 @@
   "license": "MIT",
   "author": "Nixus-security",
   "engines": {
-    "node": ">=14"
+    "node": ">=14.14"
   }
 }

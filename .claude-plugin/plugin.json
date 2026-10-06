@@ -1,6 +1,6 @@
 {
   "name": "cavemax",
-  "description": "Hyper-compressed communication mode. Cuts ~85-90% of tokens (vs caveman ~75%) while keeping full technical accuracy via glyph notation, an abbreviation dictionary, and telegraphic syntax.",
+  "description": "Make AI coding agents brutally concise: strips filler and repetition while preserving code, errors, identifiers, paths, commands and security warnings. Glyph notation, abbreviation dictionary, telegraphic syntax.",
   "version": "0.1.0",
   "author": {
     "name": "Nixus-security",

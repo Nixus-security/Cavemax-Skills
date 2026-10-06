@@ -1,0 +1,62 @@
+{
+  "_note": "Fixed, self-contained prompt set for the CAVEMAX benchmark (see docs/BENCHMARKS.md). Prompts only — no results are stored here. Do not edit prompts after publishing results for a run; add a new version instead.",
+  "version": 1,
+  "prompts": [
+    { "id": "dbg-01", "category": "debugging", "prompt": "My Express route `/users` takes 4s with 100 users and my logs show 101 SQL queries per request. What is wrong and how do I fix it?" },
+    { "id": "dbg-02", "category": "debugging", "prompt": "`TypeError: Cannot read properties of undefined (reading 'map')` is thrown in my React component when the API response is still loading. Why and how do I fix it?" },
+    { "id": "dbg-03", "category": "debugging", "prompt": "My Node 20 script prints `ERR_MODULE_NOT_FOUND` for './utils' even though utils.js exists next to it. package.json has \"type\": \"module\". What is the cause?" },
+    { "id": "dbg-04", "category": "debugging", "prompt": "A Python loop `for i in range(len(xs)): xs.remove(xs[i])` raises IndexError. Explain why and give a fix." },
+    { "id": "dbg-05", "category": "debugging", "prompt": "My Dockerfile build says `COPY failed: file not found in build context or excluded by .dockerignore: stat package.json`. What should I check?" },
+    { "id": "dbg-06", "category": "debugging", "prompt": "A JWT expiry check uses `if (token.exp < now)` and tokens are accepted for one extra second after expiry. Is this a bug? What is the correct comparison?" },
+    { "id": "dbg-07", "category": "debugging", "prompt": "My Go program deadlocks with `fatal error: all goroutines are asleep - deadlock!` when I send on an unbuffered channel in main. Why?" },
+    { "id": "dbg-08", "category": "debugging", "prompt": "CSS `position: sticky` does nothing on my header. List the most likely causes in order of probability." },
+
+    { "id": "code-01", "category": "coding", "prompt": "Write a TypeScript function that debounces another function, with a `cancel()` method." },
+    { "id": "code-02", "category": "coding", "prompt": "Write a Python function that returns the n most frequent words in a text file, ignoring case and punctuation." },
+    { "id": "code-03", "category": "coding", "prompt": "Write a SQL query returning the top 3 customers by total order value per country from tables `customers(id, country)` and `orders(id, customer_id, total)`." },
+    { "id": "code-04", "category": "coding", "prompt": "Write a bash one-liner that finds the 10 largest files under the current directory." },
+    { "id": "code-05", "category": "coding", "prompt": "Write a Rust function that parses a semver string like `1.2.3` into a `(u32, u32, u32)` tuple and returns an error for bad input." },
+    { "id": "code-06", "category": "coding", "prompt": "Write a React hook `useLocalStorage(key, initial)` that stays in sync across tabs." },
+    { "id": "code-07", "category": "coding", "prompt": "Write a Go HTTP middleware that logs method, path and duration of each request." },
+    { "id": "code-08", "category": "coding", "prompt": "Write a regex that matches ISO 8601 dates like 2026-10-06 and explain each part briefly." },
+
+    { "id": "ref-01", "category": "refactoring", "prompt": "Refactor this to remove the nested ifs:\n\n```js\nfunction f(u){ if(u){ if(u.active){ if(u.email){ return send(u.email); } } } return null; }\n```" },
+    { "id": "ref-02", "category": "refactoring", "prompt": "Convert this callback code to async/await:\n\n```js\nfs.readFile(p, 'utf8', (err, d) => { if (err) return cb(err); parse(d, (e, r) => cb(e, r)); });\n```" },
+    { "id": "ref-03", "category": "refactoring", "prompt": "This Python class has 12 methods that all take the same 5 parameters. How would you refactor it?" },
+    { "id": "ref-04", "category": "refactoring", "prompt": "Replace this switch on `type` with a lookup table in TypeScript and say what you gain:\n\n```ts\nswitch (type) { case 'a': return fa(x); case 'b': return fb(x); default: throw new Error('bad'); }\n```" },
+    { "id": "ref-05", "category": "refactoring", "prompt": "I have a 900-line `utils.js` that everything imports. Give a safe step-by-step plan to split it." },
+    { "id": "ref-06", "category": "refactoring", "prompt": "Should I extract this duplicated 6-line block that appears 3 times with small differences? How do I decide?" },
+    { "id": "ref-07", "category": "refactoring", "prompt": "Rewrite `for (var i = 0; i < arr.length; i++) { out.push(arr[i] * 2); }` in modern JavaScript." },
+
+    { "id": "exp-01", "category": "explanations", "prompt": "Explain database connection pooling and why it helps." },
+    { "id": "exp-02", "category": "explanations", "prompt": "Why does my React component re-render on every parent update even though its props look unchanged?" },
+    { "id": "exp-03", "category": "explanations", "prompt": "Explain the difference between `git merge` and `git rebase` and when to use each." },
+    { "id": "exp-04", "category": "explanations", "prompt": "What is the event loop in Node.js and why does a long synchronous loop block it?" },
+    { "id": "exp-05", "category": "explanations", "prompt": "Explain what a race condition is with a concrete example in JavaScript." },
+    { "id": "exp-06", "category": "explanations", "prompt": "What is the difference between a process and a thread?" },
+    { "id": "exp-07", "category": "explanations", "prompt": "Explain CORS: why does my browser block my fetch call to localhost:8000 from localhost:3000?" },
+
+    { "id": "term-01", "category": "terminal", "prompt": "How do I undo my last commit but keep the changes staged?" },
+    { "id": "term-02", "category": "terminal", "prompt": "How do I find which process is listening on port 3000 on Linux and kill it?" },
+    { "id": "term-03", "category": "terminal", "prompt": "How do I recursively replace `foo` with `bar` in all `.ts` files under src/?" },
+    { "id": "term-04", "category": "terminal", "prompt": "My `npm install` fails with `EACCES: permission denied, mkdir '/usr/local/lib/node_modules'`. How do I fix it without sudo?" },
+    { "id": "term-05", "category": "terminal", "prompt": "How do I see why a Docker container exited with code 137?" },
+    { "id": "term-06", "category": "terminal", "prompt": "How do I tail a log file and only show lines containing ERROR?" },
+    { "id": "term-07", "category": "terminal", "prompt": "Give me a command to delete all `node_modules` directories under the current folder. It is destructive; say what I should check first." },
+
+    { "id": "sec-01", "category": "security", "prompt": "Is this SQL safe? `db.query(\"SELECT * FROM users WHERE id = \" + req.params.id)` Explain and fix it." },
+    { "id": "sec-02", "category": "security", "prompt": "I want to store user passwords. What should I use and what parameters?" },
+    { "id": "sec-03", "category": "security", "prompt": "I accidentally committed an AWS secret key to a public repo. What do I do, in order?" },
+    { "id": "sec-04", "category": "security", "prompt": "Explain XSS and the most reliable way to prevent it in a React app." },
+    { "id": "sec-05", "category": "security", "prompt": "Should I run `curl https://example.com/install.sh | sudo bash`? What are the risks?" },
+    { "id": "sec-06", "category": "security", "prompt": "Review this for security problems: `app.get('/file', (req, res) => res.sendFile('/data/' + req.query.name))`" },
+    { "id": "sec-07", "category": "security", "prompt": "Is it OK to store a JWT in localStorage? Compare with httpOnly cookies." },
+
+    { "id": "arch-01", "category": "architecture", "prompt": "Should I use a monolith or microservices for a 3-person team building a SaaS MVP?" },
+    { "id": "arch-02", "category": "architecture", "prompt": "When should I add a cache in front of my database, and what are the invalidation risks?" },
+    { "id": "arch-03", "category": "architecture", "prompt": "Design a rate limiter for an API: compare fixed window, sliding window and token bucket." },
+    { "id": "arch-04", "category": "architecture", "prompt": "How should I structure a monorepo with a web app, an API and a shared types package?" },
+    { "id": "arch-05", "category": "architecture", "prompt": "Queue vs. cron for sending 50,000 emails per night: which and why?" },
+    { "id": "arch-06", "category": "architecture", "prompt": "How do I make a payment webhook handler idempotent?" }
+  ]
+}
