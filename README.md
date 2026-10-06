@@ -107,7 +107,7 @@ source of truth. The installer renders it into each tool's native rules format.
 
 Only Claude Code supports the `/cavemax` slash command and statusline badge. In
 Cursor/Gemini/Codex the rule is always on at `max`; switch in-conversation by
-saying "cavemax safe", "cavemax brutal", or "normal mode".
+saying "cavemax safe", "cavemax brutal", "cavemax mute", or "normal mode".
 
 ### Chat apps (no install)
 
@@ -181,15 +181,16 @@ node scripts/uninstall.js   # removes them
 /cavemax safe       # switch level
 /cavemax max
 /cavemax brutal
+/cavemax mute        # yes / no / done — nothing else
 stop cavemax        # back to normal prose  (also: "normal mode")
 ```
 
 Natural language works too — "use cavemax mode", "max compression" — and the
-active level shows in the statusline as `[CAVEMAX]` / `[CAVEMAX:BRUTAL]`.
+active level shows in the statusline as `[CAVEMAX]` / `[CAVEMAX:BRUTAL]` / `[CAVEMAX:MUTE]`.
 
 > The `/cavemax` slash command and statusline are **Claude Code** features. In
 > Cursor, Gemini, and Codex the rule is always on at `max`; to switch, just say
-> "cavemax safe" / "cavemax brutal" / "normal mode" in the conversation.
+> "cavemax safe" / "cavemax brutal" / "cavemax mute" / "normal mode" in the conversation.
 
 ## Levels
 
@@ -198,6 +199,7 @@ active level shows in the statusline as `[CAVEMAX]` / `[CAVEMAX:BRUTAL]`.
 | `safe` | ~70% | Drop articles/filler/pleasantries/hedging. Readable, fragments OK. | Ambiguity risk; sharing output with others |
 | `max` | ~85–90% | + glyphs, abbreviation dictionary, telegraphic syntax (no subjects/pronouns/copulas), lists over prose. **Default.** | Day-to-day work |
 | `brutal` | ~90%+ | + near-notation. Every non-load-bearing token stripped. Higher misread risk. | You want extreme density and can tolerate terseness |
+| `mute` | ~99% | Says nothing: `yes` / `no` / `done` (or `oui` / `non` / `fait`). If something is **urgent** (data loss, irreversible action, security risk, failure) it writes **one short sentence**, then stops. | You trust the agent and only want a verdict — tool calls and edits still run normally |
 
 ## Accuracy floor — never compressed
 
@@ -249,7 +251,7 @@ sequenceDiagram
    the flag file, then **re-injects** the rules. This per-turn reinforcement is
    what stops the model drifting back to prose.
 3. **Flag file** (`~/.claude/.cavemax-active`) holds one whitelisted word
-   (`safe` / `max` / `brutal`) or is absent (off). The statusline reads it to render
+   (`safe` / `max` / `brutal` / `mute`) or is absent (off). The statusline reads it to render
    the badge.
 
 All flag I/O is **symlink-safe, size-capped, and whitelist-validated** — a local

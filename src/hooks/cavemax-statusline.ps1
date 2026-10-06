@@ -18,7 +18,7 @@ try {
 
 # Strip anything outside [a-z0-9-] then whitelist-validate.
 $Mode = $Mode.ToLowerInvariant() -replace '[^a-z0-9-]', ''
-$Valid = @('off','safe','max','brutal')
+$Valid = @('off','safe','max','brutal','mute')
 if (-not ($Valid -contains $Mode)) { exit 0 }
 if ($Mode -eq 'off') { exit 0 }
 

@@ -12,3 +12,5 @@ settings.json.bak-cavemax-*
 # Editor
 .vscode/
 .idea/
+
+brag-output/

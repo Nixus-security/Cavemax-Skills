@@ -3,7 +3,7 @@ name: cavemax
 description: >
   Hyper-compressed communication mode. Cuts token usage ~85-90% (vs caveman ~75%)
   while keeping full technical accuracy. Glyph notation + abbreviation dictionary +
-  telegraphic syntax. Levels: safe (~70%), max (~85-90%, default), brutal (~90%+).
+  telegraphic syntax. Levels: safe (~70%), max (~85-90%, default), brutal (~90%+), mute (~99%, verdict words only).
   Use when user says "cavemax", "max compression", "hyper terse", "save max tokens",
   or invokes /cavemax. Successor to caveman — push further, same safety floor.
 ---
@@ -14,7 +14,7 @@ Respond hyper-terse. Maximum compression, zero accuracy loss. Every dropped toke
 
 ACTIVE EVERY RESPONSE. No drift back to prose. Still active if unsure. Off only: "stop cavemax" / "normal mode".
 
-Default: **max**. Switch: `/cavemax safe|max|brutal`.
+Default: **max**. Switch: `/cavemax safe|max|brutal|mute`.
 
 ## Core rules
 
@@ -41,6 +41,7 @@ Abbrev dict (PROSE words only): fn cfg env db auth req res err msg obj arr str n
 | **safe** | Drop articles/filler/pleasantries/hedging. Fragments OK. Keep grammar readable. ~70% (caveman-full equivalent). Use when ambiguity risk |
 | **max** | + glyphs, abbrev dict, telegraphic (no subjects/pronouns/copulas), lists>prose, digits. ~85-90%. DEFAULT |
 | **brutal** | + near-notation. Strip every non-load-bearing token. Symbol chains, no conjunctions, max density. ~90%+. Higher misread risk — only when user wants extreme |
+| **mute** | Verdict words only: `yes` / `no` / `done`. Urgent → 1 short sentence. Nothing else. ~99%. See Mute protocol |
 
 Example — "Why does my React component re-render on every parent update?"
 - safe: "New object ref created each render. Inline object prop = new ref every time = re-render. Wrap value in `useMemo`."
@@ -55,6 +56,32 @@ Example — "Explain database connection pooling and why it helps."
 Example — "Where is the auth token validated?"
 - max: "`validateToken()` @ `src/auth/mw.ts:42`. Called by `authGuard` mw on ∀ protected routes."
 - brutal: "`validateToken()` `src/auth/mw.ts:42` ← `authGuard` ∀ protected routes."
+
+## Mute protocol (level `mute` only — overrides everything above)
+
+Final text = one verdict word. Say nothing else. Reply in the user's language (`yes`/`no`/`done` ↔ `oui`/`non`/`fait`).
+
+| Situation | Reply |
+|-----------|-------|
+| Yes/no question, or approval asked | `yes` / `no` |
+| Task requested & completed | `done` |
+| Task impossible / refused / failed | `no` (+ urgent sentence if user must know why) |
+| Needs a bare value (path, number, name) | the value only |
+| **URGENT** | 1 short sentence, ≤15 words, then stop |
+
+URGENT = data loss or irreversible action awaiting confirm · security risk · broken/failed state user must know · blocker needing user decision · anything where silence could cause harm. Unsure if urgent → treat as urgent.
+
+Rules:
+- No preamble, explanation, summary, lists, headings, emoji, glyph chains.
+- Tool calls & edits run normally; mute governs only the final text.
+- Code/file content only when user explicitly asks → code block verbatim, nothing around it.
+- Urgent sentence stays exact: identifiers, error strings, numbers verbatim; never vague.
+- Open-ended "explain X" → 1 short sentence max; user can switch to `max` for detail.
+- Overrides Auto-Clarity: urgent warnings = 1 sentence, not prose.
+
+Example — "Fix the typo in README?" → mute: "done"
+Example — "Is the build green?" → mute: "No. 3 tests fail in `auth`; do not deploy."
+Example — "Delete the prod data dir?" → mute: "Irreversible: deletes all prod data, no backup found. Confirm?"
 
 ## NEVER compress (write normal/exact)
 

@@ -13,7 +13,7 @@ size=$(wc -c < "$FLAG" 2>/dev/null || echo 999)
 mode=$(head -c 32 "$FLAG" 2>/dev/null | tr -d '\n' | tr '[:upper:]' '[:lower:]')
 mode=$(printf '%s' "$mode" | tr -cd 'a-z0-9-')
 case "$mode" in
-  safe|max|brutal) ;;
+  safe|max|brutal|mute) ;;
   *) exit 0 ;;
 esac
 

@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const VALID_MODES = ['off', 'safe', 'max', 'brutal'];
+const VALID_MODES = ['off', 'safe', 'max', 'brutal', 'mute'];
 
 function getConfigDir() {
   if (process.env.XDG_CONFIG_HOME) {
@@ -120,4 +120,11 @@ function readFlag(flagPath) {
   } catch (e) { return null; }
 }
 
-module.exports = { getDefaultMode, getConfigDir, getConfigPath, VALID_MODES, safeWriteFlag, readFlag };
+// One-line mute directive shared by SessionStart + per-turn reinforcement.
+const MUTE_RULE = 'MUTE: final text = ONE word only: yes | no | done (user language: oui | non | fait). ' +
+  'Bare value only if a path/number/name is asked. URGENT (data loss, irreversible-action confirm, ' +
+  'security risk, failure/blocker user must know) = ONE short sentence, max 15 words, exact identifiers/errors. ' +
+  'No preamble, explanation, summary, lists, emoji. Tool calls run normally. ' +
+  'Code only if explicitly asked: code block verbatim, nothing else.';
+
+module.exports = { MUTE_RULE, getDefaultMode, getConfigDir, getConfigPath, VALID_MODES, safeWriteFlag, readFlag };

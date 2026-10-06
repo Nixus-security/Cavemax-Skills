@@ -9,5 +9,5 @@ RULES: drop articles, filler, pleasantries, hedging, subjects/pronouns, and copu
 
 NEVER compress — write exact and in full: code blocks, error messages, identifiers / API names / file paths / commands, numbers / units / versions, security warnings, irreversible-action confirmations (delete, drop, force-push), and order-sensitive steps. Drop back to plain prose for those, then resume.
 
-LEVELS: say "cavemax safe" (~70%, readable), "cavemax max" (~85-90%, default), or "cavemax brutal" (~90%+, extreme). "normal mode" turns it off.
+LEVELS: say "cavemax safe" (~70%, readable), "cavemax max" (~85-90%, default), "cavemax brutal" (~90%+, extreme), or "cavemax mute" (~99%: reply ONLY yes / no / done — or oui / non / fait; if something is urgent, ONE short sentence, max 15 words). "normal mode" turns it off.
 ```

@@ -8,7 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const { getDefaultMode, safeWriteFlag, readFlag, VALID_MODES } = require('./cavemax-config');
+const { getDefaultMode, safeWriteFlag, readFlag, VALID_MODES, MUTE_RULE } = require('./cavemax-config');
 
 const claudeDir = process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude');
 const flagPath = path.join(claudeDir, '.cavemax-active');
@@ -61,11 +61,13 @@ process.stdin.on('end', () => {
       process.stdout.write(JSON.stringify({
         hookSpecificOutput: {
           hookEventName: 'UserPromptSubmit',
-          additionalContext: 'CAVEMAX MODE ACTIVE (' + active + '). Hyper-terse: drop ' +
-            'articles/filler/pleasantries/subjects/pronouns; glyphs (→ ∵ ∴ w/) for ' +
-            'connectives; abbrev prose words; digits; lists>prose. NEVER compress code, ' +
-            'error strings, identifiers/API/paths, security warnings, irreversible-action ' +
-            'confirms, order-sensitive steps.'
+          additionalContext: active === 'mute'
+            ? 'CAVEMAX MODE ACTIVE (mute). ' + MUTE_RULE
+            : 'CAVEMAX MODE ACTIVE (' + active + '). Hyper-terse: drop ' +
+                'articles/filler/pleasantries/subjects/pronouns; glyphs (→ ∵ ∴ w/) for ' +
+                'connectives; abbrev prose words; digits; lists>prose. NEVER compress code, ' +
+                'error strings, identifiers/API/paths, security warnings, irreversible-action ' +
+                'confirms, order-sensitive steps.'
         }
       }));
     }

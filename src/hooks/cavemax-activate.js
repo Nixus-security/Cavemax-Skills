@@ -7,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const { getDefaultMode, safeWriteFlag } = require('./cavemax-config');
+const { getDefaultMode, safeWriteFlag, MUTE_RULE } = require('./cavemax-config');
 
 const claudeDir = process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude');
 const flagPath = path.join(claudeDir, '.cavemax-active');
@@ -37,8 +37,10 @@ try {
 let output;
 if (skillContent) {
   const body = skillContent.replace(/^---[\s\S]*?---\s*/, '');
+  // Mute protocol only ships at level mute; other levels drop it to save tokens.
+  const scoped = mode === 'mute' ? body : body.replace(/## Mute protocol[\s\S]*?(?=\n## )/, '');
   // Keep header/separator rows + only the active level's table row & examples.
-  const filtered = body.split('\n').reduce((acc, line) => {
+  const filtered = scoped.split('\n').reduce((acc, line) => {
     const tableRow = line.match(/^\|\s*\*\*(\S+?)\*\*\s*\|/);
     if (tableRow) { if (tableRow[1] === mode) acc.push(line); return acc; }
     const example = line.match(/^- (\S+?):\s/);
@@ -47,6 +49,8 @@ if (skillContent) {
     return acc;
   }, []);
   output = 'CAVEMAX MODE ACTIVE — level: ' + mode + '\n\n' + filtered.join('\n');
+} else if (mode === 'mute') {
+  output = 'CAVEMAX MODE ACTIVE — level: mute\n\n' + MUTE_RULE;
 } else {
   output =
     'CAVEMAX MODE ACTIVE — level: ' + mode + '\n\n' +
@@ -55,7 +59,7 @@ if (skillContent) {
     'Abbrev prose words (fn/cfg/req/res/err/impl). Digits. Lists>prose.\n' +
     'NEVER compress: code blocks, error strings, identifiers/API/paths, security warnings, ' +
     'irreversible-action confirms, order-sensitive sequences.\n' +
-    'Switch: /cavemax safe|max|brutal. Off: "stop cavemax".';
+    'Switch: /cavemax safe|max|brutal|mute. Off: "stop cavemax".';
 }
 
 // Nudge statusline setup if absent.
@@ -72,7 +76,7 @@ try {
     const command = isWindows
       ? `powershell -ExecutionPolicy Bypass -File "${scriptPath}"`
       : `bash "${scriptPath}"`;
-    output += '\n\nSTATUSLINE SETUP: cavemax ships a badge ([CAVEMAX], [CAVEMAX:BRUTAL]). ' +
+    output += '\n\nSTATUSLINE SETUP: cavemax ships a badge ([CAVEMAX], [CAVEMAX:BRUTAL], [CAVEMAX:MUTE]). ' +
       'Not configured. To enable add to ' + settingsPath + ': ' +
       '"statusLine": { "type": "command", "command": ' + JSON.stringify(command) + ' }';
   }
