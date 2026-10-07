@@ -7,6 +7,8 @@
 
 Same code. Same errors. Same identifiers. Less filler.
 
+<img src="assets/cavemax-explainer.gif" alt="CAVEMAX in 15 seconds: a verbose AI answer gets compressed into dense CAVEMAX notation, 134 to 22 tokens" width="800">
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D14.14-339933)](package.json)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-compatible-d97757)](#install)
