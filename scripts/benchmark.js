@@ -35,7 +35,7 @@ if (init) {
   fs.writeFileSync(path.join(dir, 'RUN.md'),
     '# Run metadata (fill in before publishing)\n\n' +
     '- Date:\n- Agent / client + version:\n- Model (exact id):\n- Temperature / settings:\n' +
-    '- CAVEMAX version / commit:\n- CAVEMAX level (safe|max|brutal|mute):\n- Fresh session per prompt? (yes/no):\n' +
+    '- CAVEMAX version / commit:\n- CAVEMAX level (safe|max|brutal|mute|code):\n- Fresh session per prompt? (yes/no):\n' +
     '- Token source (provider usage | chars/4 estimate):\n');
   console.log('Created ' + dir + '/{baseline,cavemax}/ and RUN.md. Save one response per prompt id (benchmarks/prompts.json).');
   process.exit(0);

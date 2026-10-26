@@ -15,6 +15,7 @@ The Claude Code hooks read `SKILL.md` at runtime.
 | `max` (default) | + glyphs, abbreviation dictionary, telegraphic syntax, lists over prose | ~85–90% |
 | `brutal` | + near-notation, max density, higher misread risk | ~90%+ |
 | `mute` | `yes` / `no` / `done`; urgent = one short sentence | ~99% |
+| `code` | Replies at `max` + lean code: reuse/stdlib/native before new code, cut dead weight, smallest diff; validation, security, error handling never cut | ≈60%+ less code |
 
 \* Design targets stated in the ruleset, **not measured results**. See [BENCHMARKS.md](BENCHMARKS.md).
 
@@ -43,7 +44,7 @@ sequenceDiagram
 2. **`UserPromptSubmit` → `src/hooks/cavemax-tracker.js`** runs on every prompt: parses `/cavemax <level>` and
    natural-language switches ("stop cavemax", "normal mode", "max compression"), updates the flag file, then
    re-injects a short reinforcement of the rules. This is the anti-drift mechanism.
-3. **Flag file** `~/.claude/.cavemax-active` holds one whitelisted word (`safe|max|brutal|mute`) or is absent.
+3. **Flag file** `~/.claude/.cavemax-active` holds one whitelisted word (`safe|max|brutal|mute|code`) or is absent.
    The statusline script (`.ps1` / `.sh`) reads it to show `[CAVEMAX]`.
 
 Flag I/O is symlink-safe (`O_NOFOLLOW`, temp file + rename, mode 0600), size-capped (32 bytes) and

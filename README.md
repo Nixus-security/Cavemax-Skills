@@ -129,7 +129,8 @@ One ruleset, [`skills/cavemax/SKILL.md`](skills/cavemax/SKILL.md), is the source
 - **Cursor / Gemini CLI / Codex:** the ruleset is written into each tool's always-on
   rules file (`.cursor/rules/cavemax.mdc`, `GEMINI.md`, `AGENTS.md`).
 - **Levels:** `safe` · `max` (default) · `brutal` · `mute` (`yes`/`no`/`done`, urgent = one
-  sentence). Switch with `/cavemax <level>` or say "cavemax brutal"; "normal mode" turns it off.
+  sentence) · `code` (terse replies + lean code: reuse, stdlib and native features before new
+  code, ≈60%+ less code as a design target; validation and security never cut). Switch with `/cavemax <level>` or say "cavemax brutal"; "normal mode" turns it off.
 
 Details, hook sequence diagram and levels: [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md).
 

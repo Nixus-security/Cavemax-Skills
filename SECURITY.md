@@ -34,7 +34,7 @@ elevated privileges.
   `node "<path>"` with a 5-second timeout. They print text (the ruleset / a reminder) that Claude Code adds to the context.
 - `cavemax-statusline.ps1` / `.sh` print `[CAVEMAX]` from the flag file. On Windows the registered command is
   `powershell -ExecutionPolicy Bypass -File "<path>"` — a process-scoped bypass for this one script, which only reads the flag.
-- Flag-file hardening: no symlinks followed, 32-byte cap, content must match `safe|max|brutal|mute`, atomic write.
+- Flag-file hardening: no symlinks followed, 32-byte cap, content must match `safe|max|brutal|mute|code`, atomic write.
 
 ## Uninstall
 
