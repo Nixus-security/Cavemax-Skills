@@ -119,6 +119,43 @@ This is an instruction to the model, so it is designed to preserve these — it 
 formal guarantee. The repo ships tests that check the ruleset, hooks and a
 preservation checker; see [Development](#development).
 
+## `code` level — less code, not just fewer words
+
+The other levels shrink how the agent *talks*. `/cavemax code` also shrinks what it
+*writes*: replies stay at `max` compression, and the agent follows a lean-code protocol
+so it stops generating code nobody needed. On a usage-capped plan, that leaves more of
+your quota for the work itself.
+
+**Ladder, run before writing any code.** The agent stops at the first rung that holds:
+
+1. Does this need to exist at all?
+2. Is it already in the repo? → reuse or extend it
+3. Does the standard library do it?
+4. Does a native platform feature do it (HTML input, CSS, SQL, shell builtin)?
+5. Does an installed dependency do it? (no new dependency for < 20 lines)
+6. Does it fit in one line or one expression?
+7. Only then: the minimum working code
+
+**Cut:** single-use wrappers and helpers, abstractions with one implementation
+(factory, interface, base class), options nobody asked for, checks for impossible
+states, `try/catch` that only rethrows, dead or commented-out code, unused imports,
+comments that restate the code, drive-by refactors outside the task.
+
+**Never cut:** validation at trust boundaries, error handling where data could be lost,
+security, accessibility, resource cleanup, behavior the task or tests require. Risky
+logic (branch, loop, parser, money, security) gets one small test.
+
+**Edits:** smallest diff that solves the task, no reprinting code after an edit, and
+every reply ends with a `skipped:` line naming what was not done or checked.
+
+Example: asked for a date field, the agent writes `<input type="date" required>`
+instead of a hand-built calendar component.
+
+> Target: ≈60%+ less code than a naive implementation. This is a **design target, not a
+> measured result**. Smaller code comes from not writing what isn't needed, never from
+> minifying or cramming lines. Inspired by
+> [ponytail](https://github.com/dietrichgebert/ponytail).
+
 ## How it works
 
 One ruleset, [`skills/cavemax/SKILL.md`](skills/cavemax/SKILL.md), is the source of truth.
@@ -130,7 +167,8 @@ One ruleset, [`skills/cavemax/SKILL.md`](skills/cavemax/SKILL.md), is the source
   rules file (`.cursor/rules/cavemax.mdc`, `GEMINI.md`, `AGENTS.md`).
 - **Levels:** `safe` · `max` (default) · `brutal` · `mute` (`yes`/`no`/`done`, urgent = one
   sentence) · `code` (terse replies + lean code: reuse, stdlib and native features before new
-  code, ≈60%+ less code as a design target; validation and security never cut). Switch with `/cavemax <level>` or say "cavemax brutal"; "normal mode" turns it off.
+  code, ≈60%+ less code as a design target; validation and security never cut; see
+  [`code` level](#code-level--less-code-not-just-fewer-words)). Switch with `/cavemax <level>` or say "cavemax brutal"; "normal mode" turns it off.
 
 Details, hook sequence diagram and levels: [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md).
 
