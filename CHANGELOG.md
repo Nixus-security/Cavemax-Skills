@@ -3,6 +3,15 @@
 All notable changes to this project are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/); versioning follows [SemVer](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- Level `code` (`/cavemax code`): replies at `max` compression plus a lean-code protocol — a ladder run before
+  writing code (needed? → already in repo? → stdlib? → native feature? → installed dep? → 1 line? → minimal code),
+  a list of dead weight to cut, a floor that is never cut (trust-boundary validation, data-loss error handling,
+  security, accessibility, cleanup), smallest-diff edits and a closing `skipped:` line. Target ≈60%+ less code
+  (design target, not measured). Statusline badge `[CAVEMAX:CODE]`.
+
 ## [0.1.0] — 2026-10-06
 
 Initial public release. Feature set: SKILL.md ruleset (levels `safe`, `max`, `brutal`, `mute`), Claude Code hooks

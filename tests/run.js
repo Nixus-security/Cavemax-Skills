@@ -71,7 +71,7 @@ test('SessionStart hook: silent when default mode is off', () => {
   } finally { rmrf(d); }
 });
 
-for (const mode of ['safe', 'max', 'brutal', 'mute']) {
+for (const mode of ['safe', 'max', 'brutal', 'mute', 'code']) {
   test('SessionStart hook: injects floor at level ' + mode, () => {
     const d = tmp();
     try {
@@ -82,6 +82,17 @@ for (const mode of ['safe', 'max', 'brutal', 'mute']) {
     } finally { rmrf(d); }
   });
 }
+
+test('SessionStart hook: Code protocol ships only at level code', () => {
+  for (const mode of ['max', 'code']) {
+    const d = tmp();
+    try {
+      const r = run('src/hooks/cavemax-activate.js', [], { env: hookEnv(d, { CAVEMAX_DEFAULT_MODE: mode }) });
+      assert.strictEqual(/## Code protocol/.test(r.stdout), mode === 'code', mode);
+      if (mode === 'code') assert.ok(/Never cut/.test(r.stdout) && /Ladder/.test(r.stdout), 'ladder + floor present');
+    } finally { rmrf(d); }
+  }
+});
 
 function tracker(d, prompt) {
   return run('src/hooks/cavemax-tracker.js', [], { env: hookEnv(d), input: JSON.stringify({ prompt }) });
@@ -102,6 +113,15 @@ test('UserPromptSubmit hook: activate, reinforce every turn, deactivate', () => 
     assert.ok(!fs.existsSync(path.join(d, '.cavemax-active')));
     r = tracker(d, 'hello');
     assert.strictEqual(r.stdout, '', 'no injection once off');
+  } finally { rmrf(d); }
+});
+
+test('UserPromptSubmit hook: code level reinforces lean-code rule', () => {
+  const d = tmp();
+  try {
+    const ctx = JSON.parse(tracker(d, '/cavemax code').stdout).hookSpecificOutput.additionalContext;
+    assert.ok(/CAVEMAX MODE ACTIVE \(code\)/.test(ctx));
+    assert.ok(/NEVER compress code/.test(ctx) && /NEVER cut: trust-boundary validation/.test(ctx));
   } finally { rmrf(d); }
 });
 

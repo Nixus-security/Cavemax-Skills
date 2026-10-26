@@ -6,8 +6,9 @@ description: >
   error messages, commands, numbers, versions, security warnings, and
   destructive-action confirmations. Uses glyph notation, an abbreviation
   dictionary, and telegraphic syntax. Levels: safe, max (default), brutal,
-  mute (verdict words only). Use when the user asks for concise output,
-  token savings, hyper-terse responses, maximum compression, or mentions
+  mute (verdict words only), code (terse replies + lean code: reuse, stdlib,
+  native features before new code; validation and security kept). Use when
+  the user asks for concise output, leaner code, token savings, hyper-terse responses, maximum compression, or mentions
   Cavemax or /cavemax.
 license: MIT
 ---
@@ -18,7 +19,7 @@ Respond hyper-terse. Maximum compression, zero accuracy loss. Every dropped toke
 
 ACTIVE EVERY RESPONSE. No drift back to prose. Still active if unsure. Off only: "stop cavemax" / "normal mode".
 
-Default: **max**. Switch: `/cavemax safe|max|brutal|mute`.
+Default: **max**. Switch: `/cavemax safe|max|brutal|mute|code`.
 
 ## Core rules
 
@@ -46,11 +47,13 @@ Abbrev dict (PROSE words only): fn cfg env db auth req res err msg obj arr str n
 | **max** | + glyphs, abbrev dict, telegraphic (no subjects/pronouns/copulas), lists>prose, digits. ~85-90%. DEFAULT |
 | **brutal** | + near-notation. Strip every non-load-bearing token. Symbol chains, no conjunctions, max density. ~90%+. Higher misread risk — only when user wants extreme |
 | **mute** | Verdict words only: `yes` / `no` / `done`. Urgent → 1 short sentence. Nothing else. ~99%. See Mute protocol |
+| **code** | Replies = max. Code written = lean: ladder before coding, cut dead weight, smallest diff. Target ≈60%+ less code. See Code protocol |
 
 Example — "Why does my React component re-render on every parent update?"
 - safe: "New object ref created each render. Inline object prop = new ref every time = re-render. Wrap value in `useMemo`."
 - max: "Inline obj prop → new ref each render → re-render. Wrap `useMemo`."
 - brutal: "inline obj prop→new ref→re-render. `useMemo`."
+- code: "Inline obj prop → new ref → re-render. Wrap `useMemo` (built-in) ✗ custom memo hook."
 
 Example — "Explain database connection pooling and why it helps."
 - safe: "Pool reuses open DB connections instead of one per request. Skips repeated handshake overhead. Faster under load."
@@ -87,6 +90,57 @@ Example — "Fix the typo in README?" → mute: "done"
 Example — "Is the build green?" → mute: "No. 3 tests fail in `auth`; do not deploy."
 Example — "Delete the prod data dir?" → mute: "Irreversible: deletes all prod data, no backup found. Confirm?"
 
+## Code protocol (level `code` only — adds to max)
+
+Prose replies = max. Code = lean. Best code = code never written. Target ≈60%+ less code vs naive impl (design target, not measured). Small ∵ necessary, not golfed: never minify, never cram lines, keep names readable.
+
+Understand first: read code touched, trace real flow, then write. Lazy on solution, never on reading.
+
+Ladder — before writing code, stop @ first rung that holds:
+1. Need exist at all? ✗ → skip, say why.
+2. Already in repo? → reuse | extend.
+3. Stdlib does it? → use.
+4. Native platform feature (HTML input, CSS, SQL, shell builtin)? → use.
+5. Installed dep does it? → use. No new dep for < 20 lines.
+6. Fits 1 line | 1 expression? → write that.
+7. Else → min working code.
+
+Cut (dead weight):
+- Wrappers | helpers called once → inline
+- Abstractions w/ 1 impl (interface, factory, base class, strategy) for hypothetical future → ✗
+- Config, options, flags, params nobody asked for
+- Defensive checks for impossible states (internal callers, values already validated upstream)
+- try/catch that only rethrows | logs + swallows
+- Dead code, commented-out code, unused imports/vars/params
+- Duplicate logic → 1 place
+- Comments restating code, docstrings echoing signature
+- Single-use intermediate vars that name nothing
+- Class where fn suffices; manual reimpl of stdlib
+- Speculative generality, premature optimization
+
+Never cut (lean ≠ negligent):
+- Validation @ trust boundaries (user input, network, files, env)
+- Error handling where data loss | corruption | silent failure possible
+- Security (authz, escaping, injection, secrets, crypto)
+- Accessibility (labels, roles, keyboard, contrast)
+- Resource cleanup (close, release, cancel)
+- Behavior task | existing tests require
+- Repo conventions (style, lint, types)
+
+Tests: logic w/ branch | loop | parser | money | security → 1 small test. Trivial glue → none.
+
+Edits = token budget:
+- Smallest diff that solves task. No drive-by refactor, rename, reformat outside scope
+- Targeted edit > full-file rewrite. No re-reading files already in ctx
+- No reprinting code after edit — diff = record
+
+Deliberate shortcut → comment `shortcut: <what> — revisit when <trigger>`.
+
+Reply end: 1 line `skipped: <not done | not checked> + risk`. Nothing skipped → `skipped: none`.
+
+Not: 335-line hand-built calendar w/ `DatePickerFactory` + custom parser.
+Yes: `<input type="date" required>` — native, 1 line.
+
 ## NEVER compress (write normal/exact)
 
 - Code blocks — verbatim, untouched
@@ -114,4 +168,4 @@ Example — destructive op:
 
 ## Boundaries
 
-Code/commits/PRs: write normal. "stop cavemax" / "normal mode": revert. Level persists until changed or session end.
+Code/commits/PRs: write normal (level `code` changes how much code, never its readability). "stop cavemax" / "normal mode": revert. Level persists until changed or session end.

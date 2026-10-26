@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const VALID_MODES = ['off', 'safe', 'max', 'brutal', 'mute'];
+const VALID_MODES = ['off', 'safe', 'max', 'brutal', 'mute', 'code'];
 
 function getConfigDir() {
   if (process.env.XDG_CONFIG_HOME) {
@@ -127,4 +127,14 @@ const MUTE_RULE = 'MUTE: final text = ONE word only: yes | no | done (user langu
   'No preamble, explanation, summary, lists, emoji. Tool calls run normally. ' +
   'Code only if explicitly asked: code block verbatim, nothing else.';
 
-module.exports = { MUTE_RULE, getDefaultMode, getConfigDir, getConfigPath, VALID_MODES, safeWriteFlag, readFlag };
+// One-line lean-code directive (level code), shared by SessionStart fallback +
+// per-turn reinforcement. Kept short: it is re-injected every turn.
+const CODE_RULE = 'CODE: write least code that works. Before coding stop at 1st rung that holds: ' +
+  'needed at all? -> already in repo? -> stdlib? -> native platform feature? -> installed dep? -> 1 line? -> min code. ' +
+  'Cut: single-use wrappers, 1-impl abstractions, unasked options, impossible-state checks, rethrow-only try/catch, ' +
+  'dead/commented code, unused imports, comments restating code. NEVER cut: trust-boundary validation, ' +
+  'data-loss error handling, security, accessibility, resource cleanup, required behavior. ' +
+  'Branch/loop/parser/money/security logic -> 1 small test. Smallest diff, no drive-by refactors, ' +
+  'no reprinting code after edits. End reply with `skipped:` what was not done/checked + risk.';
+
+module.exports = { MUTE_RULE, CODE_RULE, getDefaultMode, getConfigDir, getConfigPath, VALID_MODES, safeWriteFlag, readFlag };
